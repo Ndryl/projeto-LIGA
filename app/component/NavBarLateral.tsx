@@ -23,16 +23,26 @@ export default function NavBarLateral({ children }: NavBarLateralProps) {
       : pathname.replace("/", "").charAt(0).toUpperCase() + pathname.slice(2);
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="flex flex-1">
       <AppSidebar />
-      <main className="flex flex-1 bg-zinc-200">
-        <SidebarTrigger />
-        <div className="flex flex-1 h-screen justify-center items-center">
-          <Card className="w-11/12 h-11/12 ">
+      <main
+        className="flex flex-1 flex-col  min-h-screen overflow-auto relative"
+        style={{
+          backgroundImage: "url('backGround.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment: "fixed",
+        }}
+      >
+        <div className="absolute inset-0 bg-red-500/60" />
+        <SidebarTrigger className="z-10" />
+        <div className="flex justify-center p-4">
+          <Card className="w-full max-w-7xl flex flex-col gap-4 z-10">
             <CardHeader>
               <CardTitle>Área de {formattedPath}</CardTitle>
             </CardHeader>
-            <CardContent>{children}</CardContent>
+            <CardContent className="overflow-auto">{children}</CardContent>
           </Card>
         </div>
       </main>

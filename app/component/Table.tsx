@@ -13,13 +13,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Pencil, Trash } from "lucide-react";
 import { ConvenioProps } from "../types/convenio";
+import { Dialog } from "@radix-ui/react-dialog";
+import { DialogComponent } from "../(pages)/convenios/components/DialogComponent";
+import { DialogComponentDel } from "../(pages)/convenios/components/DialogDeletConvenio";
 
 interface TableModel {
   array: ConvenioProps[];
-  columns: string[];
+  setSelected?: (convenio: ConvenioProps) => void;
 }
 
-export function TableDemo({ array, columns }: TableModel) {
+export function TableDemo({ array, setSelected }: TableModel) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -39,17 +42,13 @@ export function TableDemo({ array, columns }: TableModel) {
     <div>
       <Table>
         <TableBody>
-          {currentData.map((convenio, index) => (
+          {currentData.map((convenio: ConvenioProps, index) => (
             <TableRow key={index}>
               <TableCell className="font-medium">{convenio.nome}</TableCell>
               <TableCell className="flex justify-end">
                 <div className="flex gap-2">
-                  <button className="p-2 rounded-full hover:bg-red-100 cursor-pointer">
-                    <Pencil />
-                  </button>
-                  <button className="p-2 rounded-full hover:bg-red-100 cursor-pointer">
-                    <Trash className="text-red-500" />
-                  </button>
+                  <DialogComponent convenio={convenio} />
+                  <DialogComponentDel convenio={convenio} />
                 </div>
               </TableCell>
             </TableRow>

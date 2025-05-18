@@ -2,6 +2,7 @@
 
 import { TableDemo } from "@/app/component/Table";
 import { useConvenio } from "@/app/context/convenio";
+import { ConvenioProps } from "@/app/types/convenio";
 import {
   Card,
   CardContent,
@@ -16,9 +17,17 @@ import { toast } from "sonner";
 const PageConvenioContent = () => {
   const { convenios, setConvenios } = useConvenio();
   const [convenio, setConvenio] = useState<string>("");
+  const [convenioSelected, setConvenioSelected] = useState<
+    ConvenioProps | undefined
+  >({
+    id: "",
+    nome: "",
+  });
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setDisabled(true);
     if (convenio.trim() === "") {
       alert("Campo vazio");
       return;
@@ -31,8 +40,9 @@ const PageConvenioContent = () => {
 
     setConvenio("");
     toast.success("Convênio adicionado com sucesso!");
+    setDisabled(false);
   };
-
+  console.log(convenioSelected);
   return (
     <Card>
       <CardHeader className="px-4">
@@ -51,12 +61,13 @@ const PageConvenioContent = () => {
           <button
             className="flex justify-center items-center border  text-white bg-green-400 h-[48px] px-4 rounded cursor-pointer hover:bg-green-400/80"
             type="submit"
+            disabled={disabled}
           >
             <Plus />
           </button>
         </form>
 
-        <TableDemo array={convenios} columns={["Convênio", "Editar"]} />
+        <TableDemo array={convenios} setSelected={setConvenioSelected} />
       </CardContent>
     </Card>
   );
