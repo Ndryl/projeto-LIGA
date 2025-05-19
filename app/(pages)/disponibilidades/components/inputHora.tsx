@@ -1,18 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface InputHoraManualProps {
   setHorarioInicio: (value: string) => void;
   setHorarioFim: (value: string) => void;
+  chave: boolean;
 }
 
 export default function InputHoraManual({
   setHorarioInicio,
   setHorarioFim,
+  chave,
 }: InputHoraManualProps) {
   const [horarioInicio, setHorarioInicioLocal] = useState("");
   const [horarioFim, setHorarioFimLocal] = useState("");
+
+  useEffect(() => {
+    setHorarioInicioLocal("");
+    setHorarioFimLocal("");
+    setHorarioInicio("");
+    setHorarioFim("");
+  }, [chave]);
 
   useEffect(() => {
     if (horarioInicio.length === 4) {
@@ -20,7 +29,7 @@ export default function InputHoraManual({
       const minuto = horarioInicio.slice(2, 4);
       setHorarioInicio(`${hora}:${minuto}`);
     }
-  }, [horarioInicio, setHorarioInicio]);
+  }, [horarioInicio]);
 
   useEffect(() => {
     if (horarioFim.length === 4) {
@@ -28,24 +37,26 @@ export default function InputHoraManual({
       const minuto = horarioFim.slice(2, 4);
       setHorarioFim(`${hora}:${minuto}`);
     }
-  }, [horarioFim, setHorarioFim]);
+  }, [horarioFim]);
 
   const handleInputChange = (
     value: string,
     setter: React.Dispatch<React.SetStateAction<string>>
   ) => {
-    // Remove caracteres não numéricos
     let numericValue = value.replace(/\D/g, "");
-
-    // Validação para adicionar 0 à esquerda se o primeiro número for maior que 3
     if (numericValue.length > 0 && parseInt(numericValue[0]) > 3) {
       numericValue = `0${numericValue}`;
     }
+    setter(numericValue.slice(0, 4));
+  };
 
-    // Limita a 4 caracteres
-    numericValue = numericValue.slice(0, 4);
-
-    setter(numericValue);
+  const handleBlur = (
+    value: string,
+    setter: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    if (value.length < 4) {
+      setter(value.padEnd(4, "0"));
+    }
   };
 
   const formatHorario = (value: string) => {
@@ -59,7 +70,6 @@ export default function InputHoraManual({
 
   return (
     <div className="flex gap-4">
-      {/* Input de Horário Início */}
       <div className="flex flex-col gap-1">
         <span className="text-sm">hor. início:</span>
         <input
@@ -69,12 +79,13 @@ export default function InputHoraManual({
           onChange={(e) =>
             handleInputChange(e.target.value, setHorarioInicioLocal)
           }
-          maxLength={5} // Para exibir no formato HH:MM
+          onBlur={(e) =>
+            handleBlur(e.target.value.replace(/\D/g, ""), setHorarioInicioLocal)
+          }
+          maxLength={5}
           placeholder="HHMM"
         />
       </div>
-
-      {/* Input de Horário Fim */}
       <div className="flex flex-col gap-1">
         <span className="text-sm">hor. término:</span>
         <input
@@ -84,7 +95,10 @@ export default function InputHoraManual({
           onChange={(e) =>
             handleInputChange(e.target.value, setHorarioFimLocal)
           }
-          maxLength={5} // Para exibir no formato HH:MM
+          onBlur={(e) =>
+            handleBlur(e.target.value.replace(/\D/g, ""), setHorarioFimLocal)
+          }
+          maxLength={5}
           placeholder="HHMM"
         />
       </div>

@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📋 Como Executar o Projeto
 
-## Getting Started
+1. Buildar a Imagem Docker
+   bash
 
-First, run the development server:
+docker build -t projeto-liga .
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. Rodar o Container
+   bash
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+docker run -p [PORTA_LOCAL]:[PORTA_CONTAINER] projeto-liga
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+(Substitua [PORTA_LOCAL] e [PORTA_CONTAINER] conforme necessário.)
+⚙️ Funcionalidades Principais
+📅 Área de Gerenciamento de Disponibilidade
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    Adicionar Disponibilidade:
+    Preencha o formulário para definir horários em que um médico estará disponível.
 
-## Learn More
+    Cards de Disponibilidade:
+    Cada horário cadastrado gera um card clicável com as informações do médico.
 
-To learn more about Next.js, take a look at the following resources:
+⏰ Marcação de Consultas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    Selecione um Card → Veja os horários disponíveis.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    Escolha um Horário → Preencha o formulário de agendamento.
 
-## Deploy on Vercel
+    Confirme → A consulta será registrada.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+📌 Kanban de Acompanhamento
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    Consultas agendadas aparecem no Kanban na área de "Consultas".
+
+    Visualização simplificada para gestão de atendimentos.

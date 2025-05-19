@@ -26,6 +26,7 @@ export default function DisponibilidadesPage() {
   const [horarioInicio, setHorarioInicio] = useState<string>("");
   const [horarioFim, setHorarioFim] = useState<string>("");
   const [tempoConsulta, setTempoConsulta] = useState<number>(0);
+  const [chave, setChave] = useState<boolean>(false);
 
   function gerarIntervalosDisponibilidade(
     horarioInicio: string,
@@ -114,6 +115,7 @@ export default function DisponibilidadesPage() {
     setHorarioInicio("");
     setHorarioFim("");
     setTempoConsulta(0);
+    setChave(!chave);
 
     toast.success("Disponibilidade adicionada com sucesso!");
   }
@@ -130,10 +132,38 @@ export default function DisponibilidadesPage() {
                 className="border border-gray-300 rounded p-2 w-full h-[48px] mt-1"
                 placeholder="Nome do médico"
                 value={medico}
-                onChange={(e) => setMedico(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[0-9]/g, "");
+                  if (value !== e.target.value) {
+                    toast.error("Números não são permitidos no nome do médico");
+                  }
+                  setMedico(value);
+                }}
+                onKeyDown={(e) => {
+                  if (
+                    [
+                      "Backspace",
+                      "Delete",
+                      "ArrowLeft",
+                      "ArrowRight",
+                      "Tab",
+                    ].includes(e.key)
+                  ) {
+                    return;
+                  }
+
+                  if (/\d/.test(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
+                onPaste={(e) => {
+                  const pastedText = e.clipboardData.getData("text/plain");
+                  if (/\d/.test(pastedText)) {
+                    e.preventDefault();
+                  }
+                }}
               />
             </div>
-
             <div className="w-full md:w-[calc(50%-0.5rem)]">
               <span className="text-sm">Especialidade:</span>
               <select
@@ -196,6 +226,7 @@ export default function DisponibilidadesPage() {
                 <InputHora
                   setHorarioInicio={setHorarioInicio}
                   setHorarioFim={setHorarioFim}
+                  chave={chave}
                 />
 
                 <button

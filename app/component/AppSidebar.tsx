@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Calendar, Home, ClipboardPen, FileClock } from "lucide-react";
+import { Calendar, ClipboardPen, FileClock } from "lucide-react";
 
 import {
   Sidebar,
@@ -15,11 +15,6 @@ import {
 
 // Menu items.
 const items = [
-  {
-    title: "Menu",
-    url: "/",
-    icon: Home,
-  },
   {
     title: "Área de convênios",
     url: "/convenios",
