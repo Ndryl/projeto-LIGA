@@ -1,8 +1,7 @@
 "use client";
 
-import { TableDemo } from "@/app/component/Table";
-import { useConvenio } from "@/app/context/convenio";
-import { ConvenioProps } from "@/app/types/convenio";
+import { useEspecialidade } from "@/app/context/especialidade";
+
 import {
   Card,
   CardContent,
@@ -13,51 +12,47 @@ import {
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { TableDemoEspecialidade } from "./components/tableEspecialidade";
 
-const PageConvenioContent = () => {
-  const { convenios, setConvenios } = useConvenio();
-  const [convenio, setConvenio] = useState<string>("");
-  const [convenioSelected, setConvenioSelected] = useState<
-    ConvenioProps | undefined
-  >({
-    id: "",
-    nome: "",
-  });
+const PageEspecialidadeContent = () => {
+  const { especialidade, setespecialidade } = useEspecialidade();
+  const [Especialidade, setEspecialidade] = useState<string>("");
+
   const [disabled, setDisabled] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setDisabled(true);
-    if (convenio.trim() === "") {
+    if (Especialidade.trim() === "") {
       toast.error("Campo vazio!");
       setDisabled(false);
       return;
     }
-    const newConvenio = {
-      nome: convenio,
-      id: (convenios.length + 1).toString(),
+    const newEspecialidade = {
+      nome: Especialidade,
+      id: (especialidade.length + 1).toString(),
     };
-    setConvenios((prev) => [...prev, newConvenio]);
+    setespecialidade((prev) => [...prev, newEspecialidade]);
 
-    setConvenio("");
-    toast.success("Convênio adicionado com sucesso!");
+    setEspecialidade("");
+    toast.success("Especialidade adicionada com sucesso!");
     setDisabled(false);
   };
-  console.log(convenioSelected);
+
   return (
     <Card>
       <CardHeader className="px-4">
-        <CardTitle>Meus convênios</CardTitle>
-        <CardDescription>Tabela de convênios</CardDescription>
+        <CardTitle>Especialidades</CardTitle>
+        <CardDescription>Tabela de especialidades</CardDescription>
       </CardHeader>
       <CardContent>
         <form action="" className="flex gap-2" onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Nome do convênio"
+            placeholder="Nome da especialidade"
             className="border border-gray-300 rounded p-2 w-full h-[48px]"
-            value={convenio}
-            onChange={(e) => setConvenio(e.target.value)}
+            value={Especialidade}
+            onChange={(e) => setEspecialidade(e.target.value)}
           />
           <button
             className="flex justify-center items-center border  text-white bg-green-400 h-[48px] px-4 rounded cursor-pointer hover:bg-green-400/80"
@@ -68,10 +63,10 @@ const PageConvenioContent = () => {
           </button>
         </form>
 
-        <TableDemo array={convenios} setSelected={setConvenioSelected} />
+        <TableDemoEspecialidade array={especialidade} />
       </CardContent>
     </Card>
   );
 };
 
-export default PageConvenioContent;
+export default PageEspecialidadeContent;

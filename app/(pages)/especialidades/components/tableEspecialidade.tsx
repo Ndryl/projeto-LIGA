@@ -3,16 +3,16 @@ import { useState } from "react";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { ConvenioProps } from "../types/convenio";
-import { DialogComponent } from "../(pages)/convenios/components/DialogComponent";
-import { DialogComponentDel } from "../(pages)/convenios/components/DialogDeletConvenio";
+import { EspecialidadeProps } from "@/app/types/convenio";
+import { DialogComponentEsp } from "./dialogComponentEspecialidade";
+import { DialogComponentDelEsp } from "./DialogComponentDelEsp";
 
 interface TableModel {
-  array: ConvenioProps[];
-  setSelected?: (convenio: ConvenioProps) => void;
+  array: EspecialidadeProps[];
+  setSelected?: (especialidade: EspecialidadeProps) => void;
 }
 
-export function TableDemo({ array }: TableModel) {
+export function TableDemoEspecialidade({ array }: TableModel) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
@@ -32,13 +32,15 @@ export function TableDemo({ array }: TableModel) {
     <div>
       <Table>
         <TableBody>
-          {currentData.map((convenio: ConvenioProps, index) => (
+          {currentData.map((especialidade: EspecialidadeProps, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium">{convenio.nome}</TableCell>
+              <TableCell className="font-medium">
+                {especialidade.nome}
+              </TableCell>
               <TableCell className="flex justify-end">
                 <div className="flex gap-2">
-                  <DialogComponent convenio={convenio} />
-                  <DialogComponentDel convenio={convenio} />
+                  <DialogComponentEsp Especialidade={especialidade} />
+                  <DialogComponentDelEsp Especialidade={especialidade} />
                 </div>
               </TableCell>
             </TableRow>

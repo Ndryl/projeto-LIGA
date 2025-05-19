@@ -4,6 +4,9 @@ import "./globals.css";
 import NavBarLateral from "./component/NavBarLateral";
 import { ConvenioProvider } from "./context/convenio";
 import { Toaster } from "sonner";
+import { EspecialidadeProvider } from "./context/especialidade";
+import { DisponibilidadeProvider } from "./context/disponibilidade";
+import { AgendamentoProvider } from "./context/AgendamentoContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +29,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ConvenioProvider>
-          <NavBarLateral>{children}</NavBarLateral>
-          <Toaster position="top-right" />
-        </ConvenioProvider>
+        <AgendamentoProvider>
+          <DisponibilidadeProvider>
+            <ConvenioProvider>
+              <EspecialidadeProvider>
+                <NavBarLateral>{children}</NavBarLateral>
+                <Toaster position="top-right" />
+              </EspecialidadeProvider>
+            </ConvenioProvider>
+          </DisponibilidadeProvider>
+        </AgendamentoProvider>
       </body>
     </html>
   );
